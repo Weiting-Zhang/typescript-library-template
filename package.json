@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/--libraryname--.umd.js",
-  "module": "dist/--libraryname--.es5.js",
+  "main": "dist/--libraryname--.js",
+  "browser": "dist/--libraryname--.umd.js",
+  "module": "dist/--libraryname--.esm.js",
   "typings": "dist/types/--libraryname--.d.ts",
   "files": [
     "dist"
@@ -32,10 +33,11 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "postinstall": "ts-node tools/init"
+    "prepublishOnly": "bash tools/release.sh",
+    "postpublish": "git commit -am \"publish: v\"$npm_package_version && git tag v$npm_package_version && git push origin master && git push --tags"
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
+    "{src,test}/*.ts": [
       "prettier --write",
       "git add"
     ]
@@ -59,6 +61,7 @@
       "tsx",
       "js"
     ],
+    "testURL": "http://localhost/",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/test/"
